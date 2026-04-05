@@ -57,28 +57,72 @@ uvicorn app.main:app --reload --port 8000
 ### Test the endpoints
 
 **Terminal 3:**
-```bash
-# Health check
-curl -s http://localhost:8000/health
 
-# Preview (no Slack sends, no persistence)
+```bash
+# 1. Health check
+curl -s http://localhost:8000/health | python3 -m json.tool
+
+# 2. Preview
 curl -s -X POST http://localhost:8000/preview \
   -H "Content-Type: application/json" \
-  -d '{"source_uri": "file:///absolute/path/to/monthly_account_status.parquet", "month": "2026-01-01"}'
+  -d '{"source_uri": "file:///absolute/path/to/monthly_account_status.parquet", "month": "2026-01-01"}' \
+  | python3 -m json.tool
 
-# Full run
+# 3. Error handling — bad file path (expect 404)
 curl -s -X POST http://localhost:8000/runs \
   -H "Content-Type: application/json" \
-  -d '{"source_uri": "file:///absolute/path/to/monthly_account_status.parquet", "month": "2026-01-01"}'
+  -d '{"source_uri": "file:///nonexistent.parquet", "month": "2026-01-01"}' \
+  | python3 -m json.tool
 
-# Check results (paste run_id from above)
-curl -s http://localhost:8000/runs/<run_id>
-
-# Replay the same month (verify idempotency)
+# 4. Error handling — unsupported scheme (expect 400)
 curl -s -X POST http://localhost:8000/runs \
   -H "Content-Type: application/json" \
-  -d '{"source_uri": "file:///absolute/path/to/monthly_account_status.parquet", "month": "2026-01-01"}'
+  -d '{"source_uri": "ftp:///bad.parquet", "month": "2026-01-01"}' \
+  | python3 -m json.tool
+
+# 5. Full run (sends Slack alerts)
+curl -s -X POST http://localhost:8000/runs \
+  -H "Content-Type: application/json" \
+  -d '{"source_uri": "file:///absolute/path/to/monthly_account_status.parquet", "month": "2026-01-01"}' \
+  | python3 -m json.tool
 ```
+
+Copy the `run_id` from step 5, then:
+
+```bash
+# 6. Get run results
+curl -s http://localhost:8000/runs/PASTE_RUN_ID | python3 -m json.tool
+
+# 7. Replay — run the same month again (verify idempotency)
+curl -s -X POST http://localhost:8000/runs \
+  -H "Content-Type: application/json" \
+  -d '{"source_uri": "file:///absolute/path/to/monthly_account_status.parquet", "month": "2026-01-01"}' \
+  | python3 -m json.tool
+```
+
+Copy the second `run_id`, then:
+
+```bash
+# 8. Replay results — should show skipped_replay: 137, alerts_sent: 0
+curl -s http://localhost:8000/runs/PASTE_SECOND_RUN_ID | python3 -m json.tool
+
+# 9. Email reports — check unknown-region notification files
+ls -la email_reports/
+cat email_reports/unknown_region_report_*.txt
+
+# 10. Mock Slack logs — verify message payloads and retries
+curl -s "http://localhost:9000/logs?limit=5" | python3 -m json.tool
+```
+
+**Expected results:**
+- Step 1: `{"ok": true}`
+- Step 2: `total_alerts: 141`, `rows_scanned: 10587`, `duplicates_found: 308`
+- Step 3: 404 — `"Data file not found"`
+- Step 4: 400 — `"Unsupported URI scheme: ftp"`
+- Step 6: `alerts_sent: ~137`, `failed_deliveries: 4`, `unknown_region: 4`
+- Step 8: `alerts_sent: 0`, `skipped_replay: 137`, `sample_skipped` populated
+- Step 9: Text files listing 4 null-region accounts (a00090, a00559, a00593, a00769)
+- Step 10: Slack payloads showing retry behavior (429 → 200)
 
 ### Docker
 
