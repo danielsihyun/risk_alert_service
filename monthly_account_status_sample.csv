@@ -1,0 +1,41 @@
+account_id,account_name,account_region,month,status,renewal_date,account_owner,updated_at
+a00419,Account 0419,APAC,2025-07-01,Healthy,2025-10-01,owner19@example.com,2025-07-05 12:00:00
+a00110,Account 0110,AMER,2025-04-01,At Risk,2025-08-01,owner10@example.com,2025-04-03 04:00:00
+a00224,Account 0224,AMER,2025-05-01,Healthy,2025-10-01,owner24@example.com,2025-05-03 20:00:00
+a00158,Account 0158,EMEA,2025-05-01,Healthy,2025-09-01,owner08@example.com,2025-05-03 10:00:00
+a00001,Account 0001,AMER,2025-08-01,At Risk,2025-09-01,owner01@example.com,2025-08-05 09:00:00
+a00050,Account 0050,APAC,2025-10-01,At Risk,2026-04-01,,2025-10-05 17:00:00
+a00362,Account 0362,AMER,2025-02-01,Healthy,2025-06-01,owner12@example.com,2025-02-05 09:00:00
+a00297,Account 0297,EMEA,2025-12-01,Healthy,2026-01-01,,2025-12-01 21:00:00
+a00205,Account 0205,EMEA,2026-01-01,Churned,,,2026-01-04 20:00:00
+a00798,Account 0798,AMER,2025-12-01,Churned,2026-05-01,owner48@example.com,2025-12-06 01:00:00
+a00330,Account 0330,APAC,2026-01-01,At Risk,2026-06-01,owner30@example.com,2026-01-06 05:00:00
+a00033,Account 0033,AMER,2025-11-01,Healthy,2026-05-01,owner33@example.com,2025-11-02 10:00:00
+a00084,Account 0084,APAC,2025-05-01,Healthy,2025-06-01,,2025-05-02 10:00:00
+a00477,Account 0477,AMER,2025-03-01,At Risk,2025-04-01,owner27@example.com,2025-03-03 15:00:00
+a00521,Account 0521,EMEA,2025-02-01,Healthy,2025-06-01,owner21@example.com,2025-02-03 03:00:00
+a00659,Account 0659,EMEA,2025-03-01,Healthy,,owner09@example.com,2025-03-02 04:00:00
+a00686,Account 0686,EMEA,2025-02-01,Healthy,2025-06-01,owner36@example.com,2025-02-05 16:00:00
+a00724,Account 0724,APAC,2025-11-01,Healthy,2025-12-01,owner24@example.com,2025-11-06 11:00:00
+a00516,Account 0516,EMEA,2025-07-01,Healthy,2025-09-01,owner16@example.com,2025-07-03 19:00:00
+a00278,Account 0278,AMER,2025-01-01,Healthy,2025-03-01,owner28@example.com,2025-01-05 15:00:00
+a00276,Account 0276,AMER,2025-02-01,Healthy,2025-07-01,owner26@example.com,2025-02-02 12:00:00
+a00723,Account 0723,APAC,2025-07-01,Healthy,2025-11-01,owner23@example.com,2025-07-03 00:00:00
+a00069,Account 0069,EMEA,2025-06-01,Healthy,,owner19@example.com,2025-06-03 21:00:00
+a00454,Account 0454,APAC,2025-09-01,Healthy,2026-02-01,owner04@example.com,2025-09-03 19:00:00
+a00596,Account 0596,EMEA,2025-05-01,Healthy,2025-07-01,,2025-05-01 19:00:00
+a00301,Account 0301,AMER,2025-10-01,Healthy,2026-03-01,owner01@example.com,2025-10-03 02:00:00
+a00089,Account 0089,APAC,2025-06-01,Healthy,2025-12-01,,2025-06-04 12:00:00
+a00390,Account 0390,AMER,2025-11-01,Healthy,2026-04-01,owner40@example.com,2025-11-02 01:00:00
+a00248,Account 0248,AMER,2025-06-01,Healthy,2025-10-01,owner48@example.com,2025-06-05 14:00:00
+a00344,Account 0344,EMEA,2025-06-01,Churned,2025-10-01,owner44@example.com,2025-06-02 12:00:00
+a00461,Account 0461,AMER,2025-05-01,At Risk,,owner11@example.com,2025-05-04 03:00:00
+a00596,Account 0596,EMEA,2025-07-01,Healthy,2025-09-01,,2025-07-04 16:00:00
+a00578,Account 0578,APAC,2025-07-01,Healthy,2025-12-01,owner28@example.com,2025-07-05 04:00:00
+a00688,Account 0688,EMEA,2025-12-01,Churned,2026-03-01,owner38@example.com,2025-12-02 00:00:00
+a00615,Account 0615,EMEA,2025-07-01,Healthy,2025-12-01,owner15@example.com,2025-07-03 03:00:00
+a00346,Account 0346,AMER,2025-03-01,Healthy,2025-08-01,owner46@example.com,2025-03-06 04:00:00
+a00640,Account 0640,AMER,2025-01-01,Healthy,2025-06-01,owner40@example.com,2025-01-01 22:00:00
+a00028,Account 0028,,2025-11-01,Healthy,2026-05-01,owner28@example.com,2025-11-01 21:00:00
+a00680,Account 0680,AMER,2025-04-01,Healthy,2025-09-01,owner30@example.com,2025-04-03 07:00:00
+a00761,Account 0761,AMER,2025-05-01,Healthy,2025-10-01,owner11@example.com,2025-05-06 12:00:00

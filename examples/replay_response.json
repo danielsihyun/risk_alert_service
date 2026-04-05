@@ -1,0 +1,51 @@
+{
+    "run_id": "17f761ae-6e03-450b-a841-c9d07c02a090",
+    "source_uri": "file:///Users/danielsihyun/Desktop/dan_fde/monthly_account_status.parquet",
+    "month": "2026-01-01",
+    "dry_run": false,
+    "status": "succeeded",
+    "started_at": "2026-04-04T19:26:01.484486",
+    "completed_at": "2026-04-04T19:26:01.557641",
+    "error": null,
+    "counts": {
+        "rows_scanned": 10587,
+        "duplicates_found": 308,
+        "alerts_generated": 141,
+        "alerts_sent": 0,
+        "skipped_replay": 137,
+        "failed_deliveries": 4,
+        "unknown_region": 4
+    },
+    "sample_alerts": [],
+    "sample_errors": [
+        {
+            "account_id": "a00090",
+            "account_name": "Account 0090",
+            "channel": null,
+            "status": "failed",
+            "error": "unknown_region"
+        },
+        {
+            "account_id": "a00559",
+            "account_name": "Account 0559",
+            "channel": null,
+            "status": "failed",
+            "error": "unknown_region"
+        },
+        {
+            "account_id": "a00593",
+            "account_name": "Account 0593",
+            "channel": null,
+            "status": "failed",
+            "error": "unknown_region"
+        },
+        {
+            "account_id": "a00769",
+            "account_name": "Account 0769",
+            "channel": null,
+            "status": "failed",
+            "error": "unknown_region"
+        }
+    ],
+    "sample_skipped": []
+}
