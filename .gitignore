@@ -5,3 +5,4 @@ __pycache__/
 venv/
 .env
 email_reports/
+.DS_Store
