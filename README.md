@@ -57,6 +57,7 @@ uvicorn app.main:app --reload --port 8000
 ### Test the endpoints
 
 **Terminal 3:**
+
 ```bash
 # 1. Health check
 curl -s http://localhost:8000/health | python3 -m json.tool
@@ -79,25 +80,31 @@ curl -s -X POST http://localhost:8000/runs \
   -d '{"source_uri": "ftp:///bad.parquet", "month": "2026-01-01"}' \
   | python3 -m json.tool
 
-# 5. Full run (sends Slack alerts) — capture run_id
-RUN_ID_1=$(curl -s -X POST http://localhost:8000/runs \
+# 5. Full run (sends Slack alerts)
+curl -s -X POST http://localhost:8000/runs \
   -H "Content-Type: application/json" \
   -d '{"source_uri": "file:///absolute/path/to/monthly_account_status.parquet", "month": "2026-01-01"}' \
-  | python3 -c "import sys,json; print(json.load(sys.stdin)['run_id'])")
-echo "Run 1: $RUN_ID_1"
+  | python3 -m json.tool
+```
 
+Copy the `run_id` from step 5, then:
+
+```bash
 # 6. Get run results
-curl -s http://localhost:8000/runs/$RUN_ID_1 | python3 -m json.tool
+curl -s http://localhost:8000/runs/PASTE_RUN_ID | python3 -m json.tool
 
-# 7. Replay — run the same month again (verify idempotency) — capture run_id
-RUN_ID_2=$(curl -s -X POST http://localhost:8000/runs \
+# 7. Replay — run the same month again (verify idempotency)
+curl -s -X POST http://localhost:8000/runs \
   -H "Content-Type: application/json" \
   -d '{"source_uri": "file:///absolute/path/to/monthly_account_status.parquet", "month": "2026-01-01"}' \
-  | python3 -c "import sys,json; print(json.load(sys.stdin)['run_id'])")
-echo "Run 2: $RUN_ID_2"
+  | python3 -m json.tool
+```
 
+Copy the second `run_id`, then:
+
+```bash
 # 8. Replay results — should show skipped_replay: 137, alerts_sent: 0
-curl -s http://localhost:8000/runs/$RUN_ID_2 | python3 -m json.tool
+curl -s http://localhost:8000/runs/PASTE_SECOND_RUN_ID | python3 -m json.tool
 
 # 9. Email reports — check unknown-region notification files
 ls -la email_reports/
