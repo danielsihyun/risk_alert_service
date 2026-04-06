@@ -251,6 +251,7 @@ The service uses Parquet-friendly access patterns to minimize memory usage:
 - **Predicate pushdown**: only rows where `month <= target_month` are read. Future months are excluded at the Parquet level.
 - **Column projection**: only the columns needed for processing are requested.
 - **GCS temp file pattern**: for `gs://` URIs, the file is downloaded to a temp file so PyArrow can use memory-mapped I/O with predicate pushdown, rather than holding the entire blob in memory. For very large files (multi-GB), a more optimal approach would use `pyarrow.fs.GcsFileSystem` for direct row-group-level reads without downloading the full file. The current approach prioritizes simplicity and correctness over maximum throughput.
+- **In-memory materialization**: after predicate pushdown and column projection, the filtered result is materialized into a pandas DataFrame for deduplication and duration calculation. For the expected data volumes (thousands of accounts × months of history), this fits comfortably in memory. For datasets where even the filtered result exceeds available memory, the processing step could be refactored to iterate over PyArrow record batches — though this would add complexity to the duration lookback logic, which requires cross-referencing accounts across months.
 
 For the provided dataset (~10K rows), this is sufficient. For production datasets with millions of rows, the same patterns scale well because Parquet's columnar format and row-group filtering minimize I/O.
 
