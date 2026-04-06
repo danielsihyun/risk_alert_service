@@ -1,73 +1,122 @@
 {
-    "run_id": "6f7b0038-72e3-40f6-941b-dd75b554c441",
-    "source_uri": "file:///Users/danielsihyun/Desktop/dan_fde/monthly_account_status.parquet",
-    "month": "2026-01-01",
-    "dry_run": false,
-    "status": "succeeded",
-    "started_at": "2026-04-04T19:23:10.094273",
-    "completed_at": "2026-04-04T19:24:09.127102",
-    "error": null,
-    "counts": {
-        "rows_scanned": 10587,
-        "duplicates_found": 308,
-        "alerts_generated": 141,
-        "alerts_sent": 137,
-        "skipped_replay": 0,
-        "failed_deliveries": 4,
-        "unknown_region": 4
+  "run_id": "bc54d6b9-84f4-4689-9947-8d6f07b2ec11",
+  "source_uri": "file:///data/monthly_account_status.parquet",
+  "month": "2026-01-01",
+  "dry_run": false,
+  "status": "succeeded",
+  "started_at": "2026-04-05T22:08:50.960875",
+  "completed_at": "2026-04-05T22:08:53.036634",
+  "error": null,
+  "counts": {
+    "rows_scanned": 10587,
+    "duplicates_found": 308,
+    "alerts_generated": 141,
+    "alerts_sent": 137,
+    "skipped_replay": 0,
+    "failed_deliveries": 4,
+    "unknown_region": 4
+  },
+  "sample_alerts": [
+    {
+      "account_id": "a00636",
+      "account_name": "Account 0636",
+      "channel": "emea-risk-alerts",
+      "status": "sent",
+      "sent_at": "2026-04-05T22:08:51.046988"
     },
-    "sample_alerts": [
-        {
-            "account_id": "a00636",
-            "account_name": "Account 0636",
-            "channel": "emea-risk-alerts",
-            "status": "sent",
-            "sent_at": "2026-04-04T19:23:10.170391"
-        },
-        {
-            "account_id": "a00076",
-            "account_name": "Account 0076",
-            "channel": "apac-risk-alerts",
-            "status": "sent",
-            "sent_at": "2026-04-04T19:23:10.173642"
-        },
-        {
-            "account_id": "a00570",
-            "account_name": "Account 0570",
-            "channel": "amer-risk-alerts",
-            "status": "sent",
-            "sent_at": "2026-04-04T19:23:10.176213"
-        }
-    ],
-    "sample_errors": [
-        {
-            "account_id": "a00090",
-            "account_name": "Account 0090",
-            "channel": null,
-            "status": "failed",
-            "error": "unknown_region"
-        },
-        {
-            "account_id": "a00559",
-            "account_name": "Account 0559",
-            "channel": null,
-            "status": "failed",
-            "error": "unknown_region"
-        },
-        {
-            "account_id": "a00593",
-            "account_name": "Account 0593",
-            "channel": null,
-            "status": "failed",
-            "error": "unknown_region"
-        },
-        {
-            "account_id": "a00769",
-            "account_name": "Account 0769",
-            "channel": null,
-            "status": "failed",
-            "error": "unknown_region"
-        }
-    ],
-    "sample_skipped": []
+    {
+      "account_id": "a00076",
+      "account_name": "Account 0076",
+      "channel": "apac-risk-alerts",
+      "status": "sent",
+      "sent_at": "2026-04-05T22:08:51.063639"
+    },
+    {
+      "account_id": "a00570",
+      "account_name": "Account 0570",
+      "channel": "amer-risk-alerts",
+      "status": "sent",
+      "sent_at": "2026-04-05T22:08:51.077792"
+    },
+    {
+      "account_id": "a00288",
+      "account_name": "Account 0288",
+      "channel": "emea-risk-alerts",
+      "status": "sent",
+      "sent_at": "2026-04-05T22:08:51.095451"
+    },
+    {
+      "account_id": "a00115",
+      "account_name": "Account 0115",
+      "channel": "emea-risk-alerts",
+      "status": "sent",
+      "sent_at": "2026-04-05T22:08:51.110314"
+    },
+    {
+      "account_id": "a00377",
+      "account_name": "Account 0377",
+      "channel": "emea-risk-alerts",
+      "status": "sent",
+      "sent_at": "2026-04-05T22:08:51.124989"
+    },
+    {
+      "account_id": "a00048",
+      "account_name": "Account 0048",
+      "channel": "apac-risk-alerts",
+      "status": "sent",
+      "sent_at": "2026-04-05T22:08:51.138985"
+    },
+    {
+      "account_id": "a00710",
+      "account_name": "Account 0710",
+      "channel": "emea-risk-alerts",
+      "status": "sent",
+      "sent_at": "2026-04-05T22:08:51.153788"
+    },
+    {
+      "account_id": "a00715",
+      "account_name": "Account 0715",
+      "channel": "apac-risk-alerts",
+      "status": "sent",
+      "sent_at": "2026-04-05T22:08:51.168594"
+    },
+    {
+      "account_id": "a00213",
+      "account_name": "Account 0213",
+      "channel": "emea-risk-alerts",
+      "status": "sent",
+      "sent_at": "2026-04-05T22:08:51.183687"
+    }
+  ],
+  "sample_errors": [
+    {
+      "account_id": "a00090",
+      "account_name": "Account 0090",
+      "channel": null,
+      "status": "failed",
+      "error": "unknown_region"
+    },
+    {
+      "account_id": "a00559",
+      "account_name": "Account 0559",
+      "channel": null,
+      "status": "failed",
+      "error": "unknown_region"
+    },
+    {
+      "account_id": "a00593",
+      "account_name": "Account 0593",
+      "channel": null,
+      "status": "failed",
+      "error": "unknown_region"
+    },
+    {
+      "account_id": "a00769",
+      "account_name": "Account 0769",
+      "channel": null,
+      "status": "failed",
+      "error": "unknown_region"
+    }
+  ],
+  "sample_skipped": []
 }

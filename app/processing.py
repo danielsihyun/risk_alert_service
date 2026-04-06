@@ -71,9 +71,7 @@ def process_month(table: pa.Table, target_month: str, arr_threshold: int | None 
     # Ensure month column is date type for consistent comparison
     df["month"] = pd.to_datetime(df["month"]).dt.date
 
-    # ------------------------------------------------------------------
     # Step 1: Deduplicate — keep latest updated_at per (account_id, month)
-    # ------------------------------------------------------------------
     df["updated_at"] = pd.to_datetime(df["updated_at"])
     pre_dedup = len(df)
     df = df.sort_values("updated_at", ascending=False).drop_duplicates(
@@ -81,9 +79,7 @@ def process_month(table: pa.Table, target_month: str, arr_threshold: int | None 
     )
     duplicates_found = pre_dedup - len(df)
 
-    # ------------------------------------------------------------------
     # Step 2: Filter to At Risk accounts for the target month
-    # ------------------------------------------------------------------
     target_rows = df[(df["month"] == target_date) & (df["status"] == "At Risk")]
 
     # Apply ARR threshold
@@ -93,9 +89,7 @@ def process_month(table: pa.Table, target_month: str, arr_threshold: int | None 
     if target_rows.empty:
         return ProcessingResult(alerts=[], rows_scanned=rows_scanned, duplicates_found=duplicates_found)
 
-    # ------------------------------------------------------------------
     # Step 3: Compute duration for each At Risk account
-    # ------------------------------------------------------------------
     # Build a lookup: (account_id, month) -> status (from deduplicated data)
     status_lookup = df.set_index(["account_id", "month"])["status"].to_dict()
 

@@ -38,9 +38,7 @@ app = FastAPI(
 )
 
 
-# ---------------------------------------------------------------------------
 # Request / Response models
-# ---------------------------------------------------------------------------
 
 class RunRequest(BaseModel):
     source_uri: str
@@ -51,15 +49,14 @@ class RunRequest(BaseModel):
 class PreviewRequest(BaseModel):
     source_uri: str
     month: str       # "YYYY-MM-DD", always first of month
+    dry_run: bool = False  # accepted for parity with /runs, but ignored (preview never sends)
 
 
 class RunResponse(BaseModel):
     run_id: str
 
 
-# ---------------------------------------------------------------------------
 # Endpoints
-# ---------------------------------------------------------------------------
 
 @app.get("/health")
 def health():

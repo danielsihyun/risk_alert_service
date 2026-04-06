@@ -86,7 +86,7 @@ def send_unknown_region_notification(alerts: list[AlertRecord], run_id: str) -> 
 
     body = "\n".join(lines)
 
-    # --- Stub transport: log + write to file ---
+    # Stub transport: log + write to file
     logger.info(f"[EMAIL STUB] Would send to: {SUPPORT_EMAIL} — Subject: {subject}")
 
     _write_report_file(run_id, body)

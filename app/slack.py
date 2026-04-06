@@ -35,9 +35,7 @@ from app.processing import AlertRecord
 logger = logging.getLogger(__name__)
 
 
-# ---------------------------------------------------------------------------
 # Message formatting
-# ---------------------------------------------------------------------------
 
 def format_alert_message(alert: AlertRecord) -> dict:
     """
@@ -71,9 +69,7 @@ def format_alert_message(alert: AlertRecord) -> dict:
     return {"text": text}
 
 
-# ---------------------------------------------------------------------------
 # Channel routing
-# ---------------------------------------------------------------------------
 
 def get_channel_for_region(region: str | None) -> str | None:
     """
@@ -88,9 +84,7 @@ def get_channel_for_region(region: str | None) -> str | None:
     return REGION_CHANNEL_MAP.get(region)
 
 
-# ---------------------------------------------------------------------------
 # Sending
-# ---------------------------------------------------------------------------
 
 def send_slack_message(channel: str, payload: dict) -> tuple[bool, str | None]:
     """

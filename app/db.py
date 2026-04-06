@@ -34,9 +34,7 @@ def utc_now() -> datetime:
     return datetime.now(timezone.utc)
 
 
-# ---------------------------------------------------------------------------
 # Models
-# ---------------------------------------------------------------------------
 
 class Run(Base):
     __tablename__ = "runs"
@@ -77,9 +75,7 @@ class AlertOutcome(Base):
     )
 
 
-# ---------------------------------------------------------------------------
 # DB lifecycle
-# ---------------------------------------------------------------------------
 
 def init_db():
     """Create tables if they don't exist."""
@@ -90,9 +86,7 @@ def get_session() -> Session:
     return SessionLocal()
 
 
-# ---------------------------------------------------------------------------
 # Helpers
-# ---------------------------------------------------------------------------
 
 def check_already_sent(session: Session, account_id: str, month: str, alert_type: str = "at_risk"):
     """

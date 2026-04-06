@@ -77,9 +77,7 @@ def execute_run(source_uri: str, month: str, dry_run: bool = False) -> str:
     session.commit()
 
     try:
-        # ------------------------------------------------------------------
         # Step 1: Process — deduplicate, filter, compute durations
-        # ------------------------------------------------------------------
         logger.info(f"[{run_id}] Processing alerts for {month}")
         result = process_month(table, month)
 
@@ -93,9 +91,7 @@ def execute_run(source_uri: str, month: str, dry_run: bool = False) -> str:
             f"{result.rows_scanned} rows scanned)"
         )
 
-        # ------------------------------------------------------------------
-        # Step 3: Deliver each alert
-        # ------------------------------------------------------------------
+        # Step 2: Deliver each alert
         counters = {"sent": 0, "skipped_replay": 0, "failed": 0, "unknown_region": 0, "dry_run": 0}
         unknown_region_alerts: list[AlertRecord] = []
 
@@ -110,9 +106,7 @@ def execute_run(source_uri: str, month: str, dry_run: bool = False) -> str:
                 unknown_region_alerts.append(alert)
                 counters["failed"] += 1  # unknown_region also counts as failed
 
-        # ------------------------------------------------------------------
-        # Step 4: Send aggregated email for unknown regions
-        # ------------------------------------------------------------------
+        # Step 3: Send aggregated email for unknown regions
         if unknown_region_alerts:
             logger.info(
                 f"[{run_id}] {len(unknown_region_alerts)} alerts with unknown region — "
@@ -120,9 +114,7 @@ def execute_run(source_uri: str, month: str, dry_run: bool = False) -> str:
             )
             send_unknown_region_notification(unknown_region_alerts, run_id)
 
-        # ------------------------------------------------------------------
-        # Step 5: Finalize run
-        # ------------------------------------------------------------------
+        # Step 4: Finalize run
         run.alerts_sent = counters["sent"]
         run.skipped_replay = counters["skipped_replay"]
         run.failed_deliveries = counters["failed"]
@@ -208,9 +200,7 @@ def _deliver_alert(
         "failed"          — Slack delivery failed after retries
         "unknown_region"  — region not in routing config, not sent
     """
-    # ------------------------------------------------------------------
     # Idempotency check: skip if already sent successfully
-    # ------------------------------------------------------------------
     prior_status = check_already_sent(session, alert.account_id, alert.month)
 
     if prior_status == "sent":
@@ -218,9 +208,7 @@ def _deliver_alert(
         # the existing "sent" record should not be overwritten.
         return "skipped_replay", None
 
-    # ------------------------------------------------------------------
     # Channel routing
-    # ------------------------------------------------------------------
     channel = get_channel_for_region(alert.account_region)
 
     if channel is None:
@@ -231,9 +219,7 @@ def _deliver_alert(
         session.commit()
         return "unknown_region", "unknown_region"
 
-    # ------------------------------------------------------------------
     # Dry run — record but don't send
-    # ------------------------------------------------------------------
     if dry_run:
         upsert_alert_outcome(
             session, run_id, alert.account_id, alert.account_name,
@@ -242,9 +228,7 @@ def _deliver_alert(
         session.commit()
         return "dry_run", None
 
-    # ------------------------------------------------------------------
     # Send to Slack
-    # ------------------------------------------------------------------
     payload = format_alert_message(alert)
     success, error = send_slack_message(channel, payload)
 

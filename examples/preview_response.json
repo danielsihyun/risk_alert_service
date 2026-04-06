@@ -1,59 +1,34 @@
 {
-    "month": "2026-01-01",
-    "source_uri": "file:///Users/danielsihyun/Desktop/dan_fde/monthly_account_status.parquet",
-    "rows_scanned": 10587,
-    "duplicates_found": 308,
-    "total_alerts": 141,
-    "arr_threshold": 10000,
-    "alerts": [
-        {
-            "account_id": "a00636",
-            "account_name": "Account 0636",
-            "account_region": "EMEA",
-            "arr": 10211,
-            "duration_months": 2,
-            "risk_start_month": "2025-12-01",
-            "renewal_date": "2026-06-01",
-            "account_owner": "owner36@example.com",
-            "channel": "emea-risk-alerts",
-            "routable": true
-        },
-        {
-            "account_id": "a00076",
-            "account_name": "Account 0076",
-            "account_region": "APAC",
-            "arr": 57133,
-            "duration_months": 1,
-            "risk_start_month": "2026-01-01",
-            "renewal_date": null,
-            "account_owner": "owner26@example.com",
-            "channel": "apac-risk-alerts",
-            "routable": true
-        },
-        {
-            "account_id": "a00570",
-            "account_name": "Account 0570",
-            "account_region": "AMER",
-            "arr": 26640,
-            "duration_months": 4,
-            "risk_start_month": "2025-10-01",
-            "renewal_date": "2026-05-01",
-            "account_owner": "owner20@example.com",
-            "channel": "amer-risk-alerts",
-            "routable": true
-        },
-        {
-            "account_id": "a00090",
-            "account_name": "Account 0090",
-            "account_region": null,
-            "arr": 49917,
-            "duration_months": 2,
-            "risk_start_month": "2025-12-01",
-            "renewal_date": null,
-            "account_owner": "owner40@example.com",
-            "channel": null,
-            "routable": false
-        }
-    ],
-    "_note": "Truncated to 4 alerts for readability. Full response contains 141 alerts."
+  "month": "2026-01-01",
+  "source_uri": "file:///data/monthly_account_status.parquet",
+  "rows_scanned": 10587,
+  "duplicates_found": 308,
+  "total_alerts": 141,
+  "arr_threshold": 10000,
+  "alerts": [
+    {
+      "account_id": "a00636",
+      "account_name": "Account 0636",
+      "account_region": "EMEA",
+      "arr": 10211,
+      "duration_months": 2,
+      "risk_start_month": "2025-12-01",
+      "renewal_date": "2026-06-01",
+      "account_owner": "owner36@example.com",
+      "channel": "emea-risk-alerts",
+      "routable": true
+    },
+    {
+      "account_id": "a00090",
+      "account_name": "Account 0090",
+      "account_region": null,
+      "arr": 49917,
+      "duration_months": 2,
+      "risk_start_month": "2025-12-01",
+      "renewal_date": null,
+      "account_owner": "owner40@example.com",
+      "channel": null,
+      "routable": false
+    }
+  ]
 }

@@ -20,9 +20,7 @@ import json
 import os
 
 
-# ---------------------------------------------------------------------------
 # Slack
-# ---------------------------------------------------------------------------
 
 # Base URL mode (for mock server or custom routing): POST to {base_url}/{channel}
 SLACK_WEBHOOK_BASE_URL: str | None = os.getenv("SLACK_WEBHOOK_BASE_URL")
@@ -41,9 +39,7 @@ def get_slack_mode() -> str:
         return "none"
 
 
-# ---------------------------------------------------------------------------
 # Region → Channel routing
-# ---------------------------------------------------------------------------
 
 _DEFAULT_REGION_CHANNEL_MAP = {
     "AMER": "amer-risk-alerts",
@@ -66,9 +62,7 @@ def _load_region_map() -> dict[str, str]:
 REGION_CHANNEL_MAP: dict[str, str] = _load_region_map()
 
 
-# ---------------------------------------------------------------------------
 # Alert thresholds
-# ---------------------------------------------------------------------------
 
 # Accounts with ARR below this threshold are excluded from alerts to reduce noise.
 # Default: 10,000 — in the sample data, the only accounts below this are those
@@ -77,9 +71,7 @@ REGION_CHANNEL_MAP: dict[str, str] = _load_region_map()
 ARR_THRESHOLD: int = int(os.getenv("ARR_THRESHOLD", "10000"))
 
 
-# ---------------------------------------------------------------------------
 # URLs
-# ---------------------------------------------------------------------------
 
 # Base URL for account detail links in Slack messages
 DETAILS_BASE_URL: str = os.getenv(
@@ -87,25 +79,19 @@ DETAILS_BASE_URL: str = os.getenv(
 )
 
 
-# ---------------------------------------------------------------------------
 # Persistence
-# ---------------------------------------------------------------------------
 
 DATABASE_URL: str = os.getenv("DATABASE_URL", "sqlite:///risk_alerts.db")
 
 
-# ---------------------------------------------------------------------------
 # Email (stub)
-# ---------------------------------------------------------------------------
 
 # In production, this would be the recipient for unknown-region notifications.
 # Implementation uses a logging stub; see app/email.py for details.
 SUPPORT_EMAIL: str = os.getenv("SUPPORT_EMAIL", "support@quadsci.ai")
 
 
-# ---------------------------------------------------------------------------
 # Retry settings for Slack
-# ---------------------------------------------------------------------------
 
 SLACK_MAX_RETRIES: int = int(os.getenv("SLACK_MAX_RETRIES", "3"))
 SLACK_INITIAL_BACKOFF: float = float(os.getenv("SLACK_INITIAL_BACKOFF", "1.0"))

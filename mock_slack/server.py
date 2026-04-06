@@ -6,9 +6,7 @@ from typing import Any, Dict
 
 from fastapi import FastAPI, Request, Response, HTTPException
 
-# ----------------------------
 # Config (via env vars)
-# ----------------------------
 # Probability of returning a 429 (rate limit)
 FAIL_RATE_429 = float(os.getenv("MOCK_SLACK_FAIL_RATE_429", "0.10"))  # 10%
 # Probability of returning a 500 (server error)
