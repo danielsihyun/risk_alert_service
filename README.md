@@ -36,7 +36,7 @@ A cloud-deployable Python service that processes monthly account health data, id
 
 ```bash
 # Clone and install
-git clone <repo-url> && cd risk_alert_service
+git clone https://github.com/danielsihyun/risk_alert_service.git && cd risk_alert_service
 python -m venv venv && source venv/bin/activate
 pip install -r requirements.txt
 ```
@@ -116,6 +116,9 @@ All configuration is via environment variables. No secrets are hardcoded.
 | SLACK_BACKOFF_MULTIPLIER | No | 2.0 | Backoff multiplier per retry |
 | SLACK_REQUEST_TIMEOUT | No | 10 | HTTP timeout in seconds |
 | GOOGLE_APPLICATION_CREDENTIALS | For GCS | — | Path to GCP service account JSON |
+| AWS_ACCESS_KEY_ID | For S3 | — | AWS access key (or use IAM role) |
+| AWS_SECRET_ACCESS_KEY | For S3 | — | AWS secret key (or use IAM role) |
+| AWS_DEFAULT_REGION | For S3 | — | AWS region (e.g., us-east-1) |
 
 ### Slack mode
 
@@ -145,6 +148,18 @@ For `gs://` URIs, authenticate using one of:
 export GOOGLE_APPLICATION_CREDENTIALS=/path/to/service_account.json
 
 # Workload Identity (GKE, Cloud Run) — no env var needed, auto-detected
+```
+
+### S3 authentication
+
+For `s3://` URIs, authenticate using one of:
+```bash
+# IAM credentials (local dev / CI)
+export AWS_ACCESS_KEY_ID=...
+export AWS_SECRET_ACCESS_KEY=...
+export AWS_DEFAULT_REGION=us-east-1
+
+# IAM role (ECS, EKS, Lambda) — no env vars needed, auto-detected via instance metadata
 ```
 
 ## Design Decisions
@@ -196,21 +211,7 @@ The service uses Parquet-friendly access patterns to minimize memory usage:
 
 For the provided dataset (~10K rows), this is sufficient. For production datasets with millions of rows, the same patterns scale well because Parquet's columnar format and row-group filtering minimize I/O.
 
-### S3 support
-
-The storage abstraction (`app/storage.py`) supports `s3://` URIs using `boto3`. The implementation follows the same pattern as GCS: download to a temp file, then read with PyArrow's predicate pushdown and column projection.
-
-For AWS deployment, authenticate using one of:
-```bash
-# IAM credentials (local dev / CI)
-export AWS_ACCESS_KEY_ID=...
-export AWS_SECRET_ACCESS_KEY=...
-export AWS_DEFAULT_REGION=us-east-1
-
-# IAM role (ECS, EKS, Lambda) — no env vars needed, auto-detected via instance metadata
-```
-
-The service is designed to run on AWS as a containerized batch job via ECS Fargate or EKS. The Dockerfile is compatible with ECR. For the email notification stub, the production replacement would be AWS SES.
+The storage abstraction (`app/storage.py`) supports all three URI schemes (`file://`, `gs://`, `s3://`) behind a single `open_uri()` interface. Both GCS and S3 use the same pattern: download to a temp file, then read with PyArrow's predicate pushdown. The service is designed to run as a containerized batch job via ECS Fargate, GKE, or Cloud Run, and the Dockerfile is compatible with both ECR and GCR.
 
 ### Slack retry strategy
 
@@ -274,13 +275,13 @@ Full example responses are in the [`examples/`](examples/) directory:
 
 ```json
 {
-  "run_id": "94e0bafd-7ece-4e6b-892e-007bef8f8a31",
+  "run_id": "bc54d6b9-84f4-4689-9947-8d6f07b2ec11",
   "source_uri": "file:///data/monthly_account_status.parquet",
   "month": "2026-01-01",
   "dry_run": false,
   "status": "succeeded",
-  "started_at": "2026-04-03T20:51:13.244840",
-  "completed_at": "2026-04-03T20:52:10.340860",
+  "started_at": "2026-04-05T22:08:50.960875",
+  "completed_at": "2026-04-05T22:08:53.036634",
   "error": null,
   "counts": {
     "rows_scanned": 10587,
@@ -297,34 +298,13 @@ Full example responses are in the [`examples/`](examples/) directory:
       "account_name": "Account 0636",
       "channel": "emea-risk-alerts",
       "status": "sent",
-      "sent_at": "2026-04-03T20:51:14.314178"
+      "sent_at": "2026-04-05T22:08:51.046988"
     }
   ],
   "sample_errors": [
     {
       "account_id": "a00090",
       "account_name": "Account 0090",
-      "channel": null,
-      "status": "failed",
-      "error": "unknown_region"
-    },
-    {
-      "account_id": "a00559",
-      "account_name": "Account 0559",
-      "channel": null,
-      "status": "failed",
-      "error": "unknown_region"
-    },
-    {
-      "account_id": "a00593",
-      "account_name": "Account 0593",
-      "channel": null,
-      "status": "failed",
-      "error": "unknown_region"
-    },
-    {
-      "account_id": "a00769",
-      "account_name": "Account 0769",
       "channel": null,
       "status": "failed",
       "error": "unknown_region"
@@ -339,7 +319,13 @@ Full example responses are in the [`examples/`](examples/) directory:
 ```json
 {
   "run_id": "54e7bc15-a733-483c-b5a5-9182848c18c9",
+  "source_uri": "file:///data/monthly_account_status.parquet",
+  "month": "2026-01-01",
+  "dry_run": false,
   "status": "succeeded",
+  "started_at": "2026-04-05T22:08:53.074208",
+  "completed_at": "2026-04-05T22:08:53.253071",
+  "error": null,
   "counts": {
     "rows_scanned": 10587,
     "duplicates_found": 308,
@@ -350,6 +336,15 @@ Full example responses are in the [`examples/`](examples/) directory:
     "unknown_region": 4
   },
   "sample_alerts": [],
+  "sample_errors": [
+    {
+      "account_id": "a00090",
+      "account_name": "Account 0090",
+      "channel": null,
+      "status": "failed",
+      "error": "unknown_region"
+    }
+  ],
   "sample_skipped": [
     {
       "account_id": "a00636",
