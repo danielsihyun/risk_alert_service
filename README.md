@@ -427,6 +427,7 @@ risk_alert_service/
 │   └── replay_response.json    # Example replay output (idempotency proof)
 ├── tests/
 │   ├── __init__.py
+│   ├── test_engine.py      # Unit tests for orchestration
 │   └── test_processing.py  # Unit tests for core business logic
 ├── Dockerfile
 ├── requirements.txt
