@@ -15,6 +15,7 @@ Covers:
 
 import datetime
 import os
+import shutil
 import tempfile
 from unittest.mock import patch, MagicMock
 
@@ -75,6 +76,7 @@ def _reset_db():
     yield
     # Cleanup after test
     Base.metadata.drop_all(db_engine)
+    shutil.rmtree("email_reports", ignore_errors=True)
 
 
 @pytest.fixture
