@@ -25,6 +25,9 @@ import pyarrow.parquet as pq
 import pytest
 from fastapi.testclient import TestClient
 
+import shutil
+shutil.rmtree("email_reports", ignore_errors=True)
+
 # Override config BEFORE importing app modules so tests use
 # a fresh temp database and no real Slack endpoint.
 _tmp_db = tempfile.NamedTemporaryFile(suffix=".db", delete=False)
