@@ -80,6 +80,12 @@ curl -s -X POST http://localhost:8000/runs \
   -d '{"source_uri": "file:///absolute/path/to/monthly_account_status.parquet", "month": "2026-01-01"}'
 ```
 
+### Run unit tests
+
+```bash
+pytest tests/ -v
+```
+
 ### Docker
 
 ```bash
@@ -382,6 +388,9 @@ risk_alert_service/
 │   ├── preview_response.json   # Example POST /preview output
 │   ├── run_response.json       # Example GET /runs/{id} output
 │   └── replay_response.json    # Example replay output (idempotency proof)
+├── tests/
+│   ├── __init__.py
+│   └── test_processing.py  # Unit tests for core business logic
 ├── Dockerfile
 ├── requirements.txt
 ├── architecture.png        # Architecture diagram
